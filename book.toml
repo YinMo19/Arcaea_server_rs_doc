@@ -1,6 +1,18 @@
+[rust]
+edition = "2021"   #在线运行用2021版本的
+
 [book]
 authors = ["YinMo19"]
 language = "en"
 multilingual = false
 src = "src"
 title = "Arcaea_server_rs_doc"
+
+[output.html.playground]
+editable = true
+copy-js = true
+# line-numbers = true
+
+[output.html.fold]
+enable = true
+level = 0
