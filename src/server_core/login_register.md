@@ -5,9 +5,7 @@
 ## 注册
 
 注册接口 
-```
-('/verify', methods=['POST'])
-```
+
 
 注册账号有几种方案：
 
@@ -119,10 +117,28 @@ prog_boost,
 email
 ```
 
+### 相关接口
+注册接口
+```
+('user/', methods=['POST'])
+```
+邮箱验证进度查询
+```
+('auth/verify', methods=['POST'])
+```
+邮箱验证重发
+```
+('user/email/resend_verify', methods=['POST']) 
+```
+删除账号
+```
+('user/me/request_delete', methods=['POST']) 
+```
+
 ## 登陆
 登陆接口
 ```
-('/login', methods=['POST'])
+('auth/login', methods=['POST'])
 ```
 
 需要实现的功能有
