@@ -22,8 +22,8 @@ jobs:
         # Just add a `cd` here if you need to change to another directory.
         mdbook build
         git worktree add gh-pages
-        git config user.name "Deploy from CI"
-        git config user.email ""
+        git config user.name "YinMo19"
+        git config user.email "Me@YinMo19.top"
         cd gh-pages
         # Delete the ref to avoid keeping history.
         git update-ref -d refs/heads/gh-pages
