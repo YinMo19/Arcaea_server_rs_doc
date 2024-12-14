@@ -16,3 +16,6 @@ copy-js = true
 [output.html.fold]
 enable = true
 level = 0
+
+[output.html]
+additional-js = ["theme/giscus.js"]
