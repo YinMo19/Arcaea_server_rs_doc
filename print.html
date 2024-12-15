@@ -1,0 +1,551 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+
+<head>
+    <!-- Book generated using mdBook -->
+    <meta charset="UTF-8">
+    <title>Arcaea_server_rs_doc</title>
+    <meta name="robots" content="noindex">
+
+
+    <!-- Custom HTML head -->
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="icon" href="favicon.svg">
+    <link rel="shortcut icon" href="favicon.png">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/general.css">
+    <link rel="stylesheet" href="css/chrome.css">
+    <link rel="stylesheet" href="css/print.css" media="print">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+    <link rel="stylesheet" href="fonts/fonts.css">
+
+    <!-- Highlight.js Stylesheets -->
+    <link rel="stylesheet" href="highlight.css">
+    <link rel="stylesheet" href="tomorrow-night.css">
+    <link rel="stylesheet" href="ayu-highlight.css">
+
+    <!-- Custom theme stylesheets -->
+
+
+    <!-- Provide site root to javascript -->
+    <script>
+        var path_to_root = "";
+        var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+    </script>
+    <!-- Start loading toc.js asap -->
+    <script src="toc.js"></script>
+</head>
+
+<body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch (e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch (e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor"
+                            title="Toggle Table of Contents" aria-label="Toggle Table of Contents"
+                            aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme"
+                            aria-label="Change theme" aria-haspopup="true" aria-expanded="false"
+                            aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)"
+                            aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S"
+                            aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Arcaea_server_rs_doc</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..."
+                            aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function (link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="总览"><a class="header" href="#总览">总览</a></h1>
+<p>Hello～ 我是 YinMo19. 这是一个关于 Arcaea Server Rust 版本的开发文档。我将使用 <code>rust/rocket</code> 进行开发。</p>
+<p>先做一点简单的 Q&amp;A。</p>
+<ul>
+<li>
+<p>这是什么？</p>
+<p>Arcaea 是一款很好玩的游戏...... 如果你不知道的话，可以去 <a href="https://arcaea.lowiro.com">官网</a> 看看。</p>
+</li>
+<li>
+<p>是否已经有案例？</p>
+<p>是的。 <a href="https://github.com/Lost-MSth">Lost-MSth</a> 已经开发了一版 <a href="https://github.com/Lost-MSth/Arcaea-Server">Arcaea Server</a>。 如果你现在想要使用的话，请前往他的仓库查看。他的项目已经是成熟的，可以游玩。</p>
+</li>
+<li>
+<p>为什么还要开发？</p>
+<p>因为我正在学习 Rust，而且我已经想做一个这样的服务器挺久的了...... 另外，使用 <code>rust</code> 预期可以获得更高的性能，并且我还想要基于这个服务器再创建一个不仅仅只是管理员可用的后台，而是可以让所有玩家查询 b30、谱面信息的后台。并且我还预期在这个后台做一个小论坛、可供玩家讨论曲子。</p>
+</li>
+</ul>
+<p>可以看到目标还是很丰满的。当然并非空想，其中小论坛的雏形我已经写了一个简单的版本，可以在 <a href="https://github.com/YinMo19/Chatroom">Chatroom</a>的 <code>release</code> 版本中试用。</p>
+<p>如果不出意外的话，我将会在 2025年1月-3月之间积极开发，这个时间段我正好放寒假...... 如果你有兴趣的话可以观望...... 或者成为这个私服的测试者！帮我反馈问题也是对我很大的帮助。关于使用相关内容将不会在这里讲述。如果你想要使用本服务器，你可能需要一些简单的逆向知识。Arcaea 客户端对服务器地址进行了加密，你无法进行简单的更改。我的 <a href="https://blog.yinmo19.top/2024/11/13/Arcaea-API-%E5%9C%B0%E5%9D%80%E9%80%86%E5%90%91/">博客</a> 中简单介绍了这部分的一点点内容，如果你有兴趣的话，可以参考一下。</p>
+<p>本 Book 使用 <code>mdbook</code> 进行编写，这是大部分 rust 语言文档使用的方案，所以如果你已经是一个 rusty 的用户，你应该很熟悉！</p>
+<p>最后将要非常非常非常感谢 <a href="https://github.com/Lost-MSth">Lost-MSth</a> 以及他的服务器，他真的帮助了我很多！</p>
+<h2 id="项目目录"><a class="header" href="#项目目录">项目目录</a></h2>
+<p><a href="https://github.com/YinMo19/Arcaea_server_rs">https://github.com/YinMo19/Arcaea_server_rs</a></p>
+<h2 id="关于我"><a class="header" href="#关于我">关于我</a></h2>
+<p>如果你有什么关于这个项目的想法、建议、问题，可以通过这个邮箱联系我！
+<a href="mailto:Arcaea@yinmo19.top">Arcaea@yinmo19.top</a></p>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="arcaea-服务器核心"><a class="header" href="#arcaea-服务器核心">Arcaea 服务器核心</a></h1>
+<p>服务器核心是处理从 Arcaea 客户端发送的请求部分。这部分主要有</p>
+<ul>
+<li>用户登陆/注册</li>
+<li>歌曲成绩获取（世界/好友/个人排名）</li>
+<li>歌曲上传</li>
+<li>课题模式</li>
+<li>谱面下载</li>
+<li>世界模式</li>
+<li>Link Play</li>
+<li>...</li>
+</ul>
+<p>这些内容均涉及到数据库操作，因此这里我们需要先确定数据库类型。由于体量不大，所以我打算使用 sqlite。</p>
+<p>在实现基础功能的基础上，我希望网页端可以轻松查询任何时候的 b30 或者其他成绩，所以我打算将每次游戏的成绩存储在数据库中。若所有用户的成绩存在同一个表单中可能会降低数据库查询速率，所以我可能会分为多个数据库，例如</p>
+<pre><code>// in directory "databases"
+core.db
+user_score.db
+user_ptt_history.db
+forum.db
+...
+</code></pre>
+<p>而例如 <code>user_score.db</code> 中，我可能会将每个用户的 <code>id</code> 作为数据库的表名称，表内的数据为每一次游玩的数据。这样可以方便的查找所有玩家的历史数据。</p>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="注册登陆"><a class="header" href="#注册登陆">注册/登陆</a></h1>
+<p>这一部分非常重要。如果不想要让用户随意的创建账号，那么我们需要小心谨慎。</p>
+<h2 id="注册"><a class="header" href="#注册">注册</a></h2>
+<p>注册接口</p>
+<p>注册账号有几种方案：</p>
+<ul>
+<li>直接通过</li>
+<li>通过邮件验证</li>
+<li>实现一个请求列表、管理员在后台通过</li>
+<li>第二点和第三点同时实现</li>
+</ul>
+<p>我们预计将会实现这几个功能。启用这些功能通过寻找环境变量判断。如果服务器启动时在环境变量中找到关于邮件服务器的配置，那么将会启用邮件功能。</p>
+<p>预计使用 lettre crate 实现邮件服务。用户需要在环境变量中设置</p>
+<pre><code>ARCSERVER_ADMIN_MAIL=M&lt;your mail&gt;
+ARCSERVER_MAIL_SMTP_SERVER=&lt;your smtp server&gt;
+ARCSERVER_MAIL_PASSWORD=&lt;password&gt;
+</code></pre>
+<p>当这三个参数同时检测到的时候才会启动邮件服务。在官方案例中</p>
+<pre><code class="language-rs">extern crate lettre;
+extern crate lettre_email;
+extern crate mime;
+
+use lettre_email::Email;
+use lettre::smtp::authentication::Credentials;
+use lettre::{SmtpClient, Transport};
+
+fn main() {
+
+    let email_receiver = "YOUR_TARGET_EMAIL";
+    let mine_email = "YOUR_GMAIL_ADDRESS";
+    let smtp_server = "smtp.gmail.com";
+    let password = "YOUR_GMAIL_APPLICATION_PASSWORD"; //需要生成应用专用密码
+
+    let email = Email::builder()
+        .to(email_receiver)
+        .from(mine_email)
+        .subject("subject")
+        .html("&lt;h1&gt;Hi there&lt;/h1&gt;")
+        .text("Message send by lettre Rust")
+        .build()
+        .unwrap();
+
+    let creds = Credentials::new(
+        mine_email.to_string(),
+        password.to_string(),
+    );
+
+    // Open connection to Gmail
+    let mut mailer = SmtpClient::new_simple(smtp_server)
+        .unwrap()
+        .credentials(creds)
+        .transport();
+
+    // Send the email
+    let result = mailer.send(email.into());
+
+    if result.is_ok() {
+        println!("Email sent");
+    } else {
+        println!("Could not send email: {:?}", result);
+    }
+
+    print!("{:?}", result);
+    mailer.close();
+}
+</code></pre>
+<p>可以看到邮件收发并不困难。</p>
+<p>邮件发送内容会是一个 url，它应该类似于</p>
+<pre><code>https://&lt;your_domain(:port)&gt;/&lt;api_endpoint&gt;/auth?auth_string=&lt;random_string&gt;
+</code></pre>
+<p>这个随机字符串在用户注册的时候生成，并储存在用户信息中。服务器在接受到这个请求之后查询数据库，判断这个字符串是否存在、是否在规定时间内，以此实现验证。</p>
+<p>管理员后台验证应该是默认启用的模式。如果要实现没有任何验证（这应该是别的功能测试的时候使用的，非常不建议正式使用）应该使用环境变量</p>
+<pre><code>ARCSERVER_NO_ADMIN_AUTH=true
+</code></pre>
+<p>来指定。否则在管理员页面将会显示一个表单，可以看到目前注册是否通过。</p>
+<p>用户注册之后，数据库填入的字段有</p>
+<pre><code>user_id,
+name,
+password,
+join_date,
+user_code,
+rating_ptt,
+highest_rating_ptt,
+character_id,
+is_skill_sealed,
+is_char_uncapped,
+is_char_uncapped_override,
+is_hide_rating,
+favorite_character,
+max_stamina_notification_enabled,
+current_map,
+ticket,
+prog_boost,
+email
+</code></pre>
+<h3 id="相关接口"><a class="header" href="#相关接口">相关接口</a></h3>
+<p>注册接口</p>
+<pre><code>('user/', methods=['POST'])
+</code></pre>
+<p>邮箱验证进度查询</p>
+<pre><code>('auth/verify', methods=['POST'])
+</code></pre>
+<p>邮箱验证重发</p>
+<pre><code>('user/email/resend_verify', methods=['POST']) 
+</code></pre>
+<p>删除账号</p>
+<pre><code>('user/me/request_delete', methods=['POST']) 
+</code></pre>
+<h2 id="登陆"><a class="header" href="#登陆">登陆</a></h2>
+<p>登陆接口</p>
+<pre><code>('auth/login', methods=['POST'])
+</code></pre>
+<p>需要实现的功能有</p>
+<ul>
+<li>验证客户端版本号</li>
+<li>验证设备信息</li>
+<li>查验 ip 地址
+<ul>
+<li>多端登陆自动封号</li>
+</ul>
+</li>
+<li>验证账号密码</li>
+<li>...</li>
+</ul>
+<p>返回字段有</p>
+<pre><code class="language-json">{
+    "success": True,
+    "token_type": "Bearer", 
+    "user_id": user.user_id, 
+    "access_token": user.token
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="linkplay"><a class="header" href="#linkplay">Linkplay</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="课题模式"><a class="header" href="#课题模式">课题模式</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="歌曲下载"><a class="header" href="#歌曲下载">歌曲下载</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="歌曲购买"><a class="header" href="#歌曲购买">歌曲购买</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="歌曲信息"><a class="header" href="#歌曲信息">歌曲信息</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="排名信息"><a class="header" href="#排名信息">排名信息</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="世界模式"><a class="header" href="#世界模式">世界模式</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="礼物兑换券"><a class="header" href="#礼物兑换券">礼物/兑换券</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="角色"><a class="header" href="#角色">角色</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="网页"><a class="header" href="#网页">网页</a></h1>
+<p>网页部分主要是设计前后端交互的接口。我们预计使用的前端框架是 react。</p>
+<p>首先是登陆与鉴权。权限控制方面需要单独设计，目前的方案是两级权限，管理员权限和普通玩家权限。网页端可操作的数据可能并不完全，所谓的超级管理员权限可能就是单杀服务器改数据库（x</p>
+<p>需要设计的前端页面主要有</p>
+<ul>
+<li>登陆前的欢迎页面</li>
+<li>登陆页面</li>
+<li>登陆之后的面板</li>
+<li>查询 b30 的页面
+<ul>
+<li>查询b30接口</li>
+<li>查询历史b30接口</li>
+</ul>
+</li>
+<li>查询ptt历史变化</li>
+<li>查询每首歌的最高成绩
+<ul>
+<li>歌曲下面可以插入论坛接口（以歌曲名称作为标题）</li>
+</ul>
+</li>
+<li>...</li>
+</ul>
+<p>前端要设计的好看确实很需要花时间，如果你也想要设计一个超级酷炫的前端页面，一定要联系我！可以给我发送邮件
+<a href="mailto:Arcaea@yinmo19.top">Arcaea@yinmo19.top</a></p>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="欢迎页面"><a class="header" href="#欢迎页面">欢迎页面</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="登陆页面"><a class="header" href="#登陆页面">登陆页面</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="面板"><a class="header" href="#面板">面板</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="b30查询"><a class="header" href="#b30查询">b30查询</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="ptt历史查询"><a class="header" href="#ptt历史查询">ptt历史查询</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="每首歌的成绩"><a class="header" href="#每首歌的成绩">每首歌的成绩</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="论坛"><a class="header" href="#论坛">论坛</a></h1>
+<p>小论坛会挂在相同的网页上，作为一个子功能。目前我已有一个相似的项目 <a href="https://github.com/YinMo19/Chatroom">Chatroom</a> 。</p>
+<p>核心的实现思路是，在用户第一次访问的时候获取历史信息（并缓存），之后点入特定的论坛，会获取一个 <code>EventStream</code>，这个事件流订阅了一个消息队列，这个消息队列的所有新增消息会实时的 <code>Send</code> 给用户，实现一个简单的通讯功能。</p>
+<pre><code class="language-rs">use super::database::MessageLog;
+use super::models::Message;
+// use super::utils::DateTimeWrapper;
+use rocket::form::Form;
+use rocket::response::stream::{Event, EventStream};
+use rocket::serde::json::Json;
+use rocket::tokio::select;
+use rocket::tokio::sync::broadcast::{error::RecvError, Sender};
+use rocket::{Shutdown, State};
+use rocket_db_pools::Connection;
+use std::net::IpAddr;
+
+#[get("/events")]
+pub async fn events(queue: &amp;State&lt;Sender&lt;Message&gt;&gt;, mut end: Shutdown) -&gt; EventStream![] {
+    let mut rx = queue.subscribe();
+    EventStream! {
+        loop {
+            let msg = select! {
+                msg = rx.recv() =&gt; match msg {
+                    Ok(msg) =&gt; msg,
+                    Err(RecvError::Closed) =&gt; break,
+                    Err(RecvError::Lagged(_)) =&gt; continue,
+                },
+                _ = &amp;mut end =&gt; break,
+            };
+
+            yield Event::json(&amp;msg);
+        }
+    }
+}
+
+#[post("/message", data = "&lt;form&gt;")]
+pub async fn post(
+    mut db: Connection&lt;MessageLog&gt;,
+    form: Form&lt;Message&gt;,
+    queue: &amp;State&lt;Sender&lt;Message&gt;&gt;,
+    client_ip: Option&lt;IpAddr&gt;,
+) {
+    // println!("New message from {:?}", client_ip);
+    let message = form.into_inner();
+    let _res = queue.send(message.clone());
+
+    let query = r#"
+        INSERT INTO messages (room, username, message, ip_addr)
+        VALUES (?, ?, ?, ?)
+    "#;
+
+    let _result = sqlx::query(&amp;query)
+        .bind(&amp;message.room)
+        .bind(&amp;message.username)
+        .bind(&amp;message.message)
+        .bind(&amp;client_ip.unwrap().to_string())
+        .fetch_all(&amp;mut **db)
+        .await
+        .expect("Failed to insert message");
+}
+
+#[get("/history?&lt;room&gt;")]
+pub async fn get_history(
+    mut db: Connection&lt;MessageLog&gt;,
+    room: String,
+) -&gt; Result&lt;Json&lt;Vec&lt;Message&gt;&gt;, rocket::response::status::Custom&lt;String&gt;&gt; {
+    let query = r#"
+        SELECT * FROM messages WHERE room = ? ORDER BY id DESC LIMIT 500
+    "#;
+
+    let mut messages = sqlx::query_as(&amp;query)
+        .bind(room)
+        .fetch_all(&amp;mut **db)
+        .await
+        .map_err(|e| {
+            rocket::response::status::Custom(
+                rocket::http::Status::InternalServerError,
+                format!("Database error: {}", e),
+            )
+        })?;
+
+    messages.reverse();
+    Ok(Json(messages))
+}
+</code></pre>
+<p>这是之前已经实现的一些内容，可以简单的参考。</p>
+<p>关于用户鉴权方面，直接使用核心数据库中的用户信息即可。用户鉴权方面应该放在网页端入口处实现，论坛发送消息时应该再次校验。</p>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="论坛首页"><a class="header" href="#论坛首页">论坛首页</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="帖子"><a class="header" href="#帖子">帖子</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css">
+<h1 id="位于歌曲下的帖子"><a class="header" href="#位于歌曲下的帖子">位于歌曲下的帖子</a></h1>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                    <main>
+                        <hr>
+                        <div id="giscus-container"></div>
+                    </main>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace.js"></script>
+        <script src="editor.js"></script>
+        <script src="mode-rust.js"></script>
+        <script src="theme-dawn.js"></script>
+        <script src="theme-tomorrow_night.js"></script>
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/giscus.js"></script>
+
+        <script>
+            window.addEventListener('load', function () {
+                window.setTimeout(window.print, 100);
+            });
+        </script>
+
+    </div>
+</body>
+
+</html>
