@@ -25,6 +25,10 @@ Hello～ 我是 YinMo19. 这是一个关于 Arcaea Server Rust 版本的开发�
 最后将要非常非常非常感谢 [Lost-MSth](https://github.com/Lost-MSth) 以及他的服务器，他真的帮助了我很多！
 
 
+项目目录
+---
+[https://github.com/YinMo19/Arcaea_server_rs](https://github.com/YinMo19/Arcaea_server_rs)
+
 关于我
 ---
 如果你有什么关于这个项目的想法、建议、问题，可以通过这个邮箱联系我！

@@ -19,3 +19,6 @@ level = 0
 
 [output.html]
 additional-js = ["theme/giscus.js"]
+
+[preprocessor.katex]
+after = ["links"]
