@@ -22,8 +22,8 @@ jobs:
         override: true
     
     - name: Install mdbook-katex
-        run: |
-          cargo install mdbook-katex
+      run: |
+        cargo install mdbook-katex
 
     - name: Install latest mdbook
       run: |
